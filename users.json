@@ -1,0 +1,30 @@
+{
+  "19104630785": {
+    "nome": "Lucas Gomes",
+    "nome_sujo": false
+  },
+  "19104630783": {
+    "nome": "Lucas Aguiar",
+    "nome_sujo": true
+  },
+  "12345678900": {
+    "nome": "João Silva",
+    "nome_sujo": false
+  },
+  "98765432100": {
+    "nome": "Maria Souza",
+    "nome_sujo": true
+  },
+  "45678912345": {
+    "nome": "Ana Pereira",
+    "nome_sujo": false
+  },
+  "32165498700": {
+    "nome": "Carlos Oliveira",
+    "nome_sujo": true
+  },
+  "78901234567": {
+    "nome": "Fernanda Costa",
+    "nome_sujo": false
+  }
+}

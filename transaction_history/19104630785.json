@@ -1,0 +1,170 @@
+[
+  {
+    "data": "2024-02-05T09:17:02",
+    "tipo": "depósito",
+    "descricao": "Depósito em conta corrente",
+    "valor": 2500.00,
+    "saldo": 2500.00
+  },
+  {
+    "data": "2024-02-07T16:42:15",
+    "tipo": "transferência",
+    "descricao": "Transferência recebida de Lucas Gomes (PIX)",
+    "valor": 1200.00,
+    "saldo": 3700.00
+  },
+  {
+    "data": "2024-02-09T10:13:00",
+    "tipo": "pagamento",
+    "descricao": "Pagamento de fatura cartão de crédito",
+    "valor": -700.00,
+    "saldo": 3000.00
+  },
+  {
+    "data": "2024-02-11T12:44:33",
+    "tipo": "saque",
+    "descricao": "Saque em caixa eletrônico",
+    "valor": -200.00,
+    "saldo": 2800.00
+  },
+  {
+    "data": "2024-02-15T15:12:07",
+    "tipo": "empréstimo",
+    "descricao": "Empréstimo consignado aprovado - 12 parcelas",
+    "valor": 5000.00,
+    "saldo": 7800.00
+  },
+  {
+    "data": "2024-02-19T08:55:01",
+    "tipo": "pagamento",
+    "descricao": "Pagamento conta de energia",
+    "valor": -245.80,
+    "saldo": 7554.20
+  },
+  {
+    "data": "2024-02-22T09:10:18",
+    "tipo": "transferência",
+    "descricao": "Transferência enviada para Maria Silva (TED)",
+    "valor": -800.00,
+    "saldo": 6754.20
+  },
+  {
+    "data": "2024-03-01T09:00:00",
+    "tipo": "crédito",
+    "descricao": "Crédito de salário",
+    "valor": 3200.00,
+    "saldo": 9954.20
+  },
+  {
+    "data": "2024-03-02T18:20:13",
+    "tipo": "pagamento",
+    "descricao": "Pagamento boleto faculdade",
+    "valor": -950.00,
+    "saldo": 9004.20
+  },
+  {
+    "data": "2024-03-03T10:30:44",
+    "tipo": "FGTS",
+    "descricao": "Depósito FGTS",
+    "valor": 420.00,
+    "saldo": 9424.20
+  },
+  {
+    "data": "2024-03-04T14:16:21",
+    "tipo": "pagamento",
+    "descricao": "Pagamento de parcela empréstimo consignado",
+    "valor": -455.00,
+    "saldo": 8969.20
+  },
+  {
+    "data": "2024-03-06T11:09:55",
+    "tipo": "compra",
+    "descricao": "Compra supermercado",
+    "valor": -298.90,
+    "saldo": 8670.30
+  },
+  {
+    "data": "2024-03-08T08:45:27",
+    "tipo": "pagamento",
+    "descricao": "Pagamento internet banda larga",
+    "valor": -99.90,
+    "saldo": 8570.40
+  },
+  {
+    "data": "2024-03-10T17:22:06",
+    "tipo": "compra",
+    "descricao": "Compra online - Amazon",
+    "valor": -159.99,
+    "saldo": 8410.41
+  },
+  {
+    "data": "2024-03-12T19:55:19",
+    "tipo": "empréstimo",
+    "descricao": "Solicitação de empréstimo recusada (valor acima do permitido para cliente com restrição)",
+    "valor": 0.00,
+    "saldo": 8410.41
+  },
+  {
+    "data": "2024-03-15T07:05:39",
+    "tipo": "FGTS",
+    "descricao": "Saque-aniversário FGTS",
+    "valor": 980.00,
+    "saldo": 9390.41
+  },
+  {
+    "data": "2024-03-16T13:14:21",
+    "tipo": "compra",
+    "descricao": "Compra farmácia",
+    "valor": -123.40,
+    "saldo": 9267.01
+  },
+  {
+    "data": "2024-03-18T16:31:22",
+    "tipo": "pagamento",
+    "descricao": "Pagamento de parcela empréstimo consignado",
+    "valor": -455.00,
+    "saldo": 8812.01
+  },
+  {
+    "data": "2024-03-20T10:23:14",
+    "tipo": "transferência",
+    "descricao": "Transferência recebida de João Pedro (PIX)",
+    "valor": 500.00,
+    "saldo": 9312.01
+  },
+  {
+    "data": "2024-03-22T14:44:37",
+    "tipo": "compra",
+    "descricao": "Assinatura Netflix",
+    "valor": -39.90,
+    "saldo": 9272.11
+  },
+  {
+    "data": "2024-03-25T18:08:42",
+    "tipo": "pagamento",
+    "descricao": "Pagamento conta de água",
+    "valor": -80.30,
+    "saldo": 9191.81
+  },
+  {
+    "data": "2024-03-27T13:47:15",
+    "tipo": "compra",
+    "descricao": "Compra padaria",
+    "valor": -35.60,
+    "saldo": 9156.21
+  },
+  {
+    "data": "2024-03-30T12:11:59",
+    "tipo": "crédito",
+    "descricao": "Devolução compra Amazon",
+    "valor": 159.99,
+    "saldo": 9316.20
+  },
+  {
+    "data": "2024-04-01T09:00:00",
+    "tipo": "crédito",
+    "descricao": "Crédito de salário",
+    "valor": 3200.00,
+    "saldo": 12516.20
+  }
+]
