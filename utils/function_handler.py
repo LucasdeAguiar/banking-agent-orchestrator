@@ -3,6 +3,8 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Tuple, Any
 from openai import OpenAI
+import sys
+import json
 
 # Adicionar o diretório pai ao path para importar agentes
 sys.path.append(str(Path(__file__).parent.parent))
@@ -10,13 +12,23 @@ from agentes.emprestimo_agent import EmprestimoAgent
 from agentes.analise_risco_agent import AnaliseRiscoAgent
 from agentes.web_search_agent import WebSearchAgent
 from agentes.file_search_agent import FileSearchAgent
+from utils.historico_manager import HistoricoManager
 
 
 class FunctionCallHandler:
     """Handler para gerenciar function calling da OpenAI"""
     
+    # Constantes para mensagens de erro
+    ERRO_CPF_VAZIO = "[ERRO] CPF não pode ser vazio"
+    ERRO_VALOR_POSITIVO = "[ERRO] Valor deve ser positivo"
+    ERRO_PARCELAS_POSITIVAS = "[ERRO] Quantidade de parcelas deve ser positiva"
+    ERRO_PERGUNTA_VAZIA = "[ERRO] Pergunta não pode ser vazia"
+    
     def __init__(self, client: OpenAI):
         self.client = client
+        
+        # Instanciar gerenciador de histórico
+        self.historico_manager = HistoricoManager(limite_mensagens_por_agente=5)
         
         # Instanciar agentes
         self.emprestimo_agent = EmprestimoAgent()
@@ -234,9 +246,7 @@ class FunctionCallHandler:
             resposta_message = resposta.choices[0].message
             print(f"[DEBUG] Modelo retornou tool_calls: {bool(resposta_message.tool_calls)}")
             
-            # Verificar se há tool calls
             if resposta_message.tool_calls:
-                # Adicionar a mensagem do assistente com tool_calls
                 mensagens.append({
                     "role": "assistant",
                     "content": resposta_message.content,
@@ -253,7 +263,6 @@ class FunctionCallHandler:
                     ]
                 })
                 
-                # Processar cada tool call
                 for tool_call in resposta_message.tool_calls:
                     function_name = tool_call.function.name
                     agentes_usados.append(function_name)
