@@ -11,17 +11,6 @@ class HistoricoManager:
     
     def obter_historico_limitado_por_agente(self, cpf: str, agente: str, 
                                           history_dir: Path = None) -> List[Dict]:
-        """
-        Obtém as últimas N mensagens de um agente específico para um CPF
-        
-        Args:
-            cpf: CPF do usuário
-            agente: Nome do agente (ex: 'emprestimo_agent')
-            history_dir: Diretório do histórico
-            
-        Returns:
-            Lista com as últimas mensagens do agente limitadas
-        """
         if history_dir is None:
             history_dir = Path("chat_history")
         
@@ -53,27 +42,22 @@ class HistoricoManager:
         historico_completo = carregar_historico(cpf, history_dir)
         contexto = []
         
-        # 1. Adicionar mensagens system
         contexto.extend(self._extrair_mensagens_system(historico_completo))
         
-        # 2. Adicionar últimas mensagens do agente com suas perguntas
         contexto.extend(self._obter_mensagens_agente_com_contexto(
             cpf, agente, historico_completo, history_dir
         ))
         
-        # 3. Adicionar pergunta atual
         contexto.append({"role": "user", "content": pergunta_atual})
         
         return contexto
     
     def _extrair_mensagens_system(self, historico: List[Dict]) -> List[Dict]:
-        """Extrai mensagens system do histórico"""
         return [msg for msg in historico if msg.get("role") == "system"]
     
     def _obter_mensagens_agente_com_contexto(self, cpf: str, agente: str, 
                                            historico_completo: List[Dict],
                                            history_dir: Path) -> List[Dict]:
-        """Obtém mensagens do agente com suas perguntas anteriores"""
         mensagens_agente = self.obter_historico_limitado_por_agente(
             cpf, agente, history_dir
         )
@@ -90,7 +74,6 @@ class HistoricoManager:
     
     def _encontrar_pergunta_anterior(self, msg_agente: Dict, agente: str, 
                                    historico_completo: List[Dict]) -> Optional[Dict]:
-        """Encontra a pergunta do usuário que gerou uma resposta do agente"""
         for i, msg in enumerate(historico_completo):
             if (self._mensagem_corresponde(msg, msg_agente, agente) and 
                 i > 0 and 
@@ -99,24 +82,12 @@ class HistoricoManager:
         return None
     
     def _mensagem_corresponde(self, msg: Dict, msg_agente: Dict, agente: str) -> bool:
-        """Verifica se duas mensagens correspondem"""
         return (msg.get("content") == msg_agente.get("content") and 
                 msg.get("role") == "assistant" and 
                 msg.get("agent") == agente)
     
     def obter_estatisticas_agente(self, cpf: str, agente: str, 
                                 history_dir: Path = None) -> Dict:
-        """
-        Obtém estatísticas específicas de um agente para um CPF
-        
-        Args:
-            cpf: CPF do usuário
-            agente: Nome do agente
-            history_dir: Diretório do histórico
-            
-        Returns:
-            Dicionário com estatísticas do agente
-        """
         if history_dir is None:
             history_dir = Path("chat_history")
         
@@ -140,7 +111,6 @@ class HistoricoManager:
         }
     
     def configurar_limite(self, novo_limite: int) -> None:
-        """Configura novo limite de mensagens por agente"""
         if novo_limite <= 0:
             raise ValueError("Limite deve ser maior que zero")
         self.limite_mensagens_por_agente = novo_limite

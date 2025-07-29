@@ -7,8 +7,6 @@ from .moderation import ModerationManager
 
 
 class GuardrailResult:
-    """Resultado de um guardrail seguindo padrão OpenAI"""
-    
     def __init__(self, passed: bool, message: str = "", details: Optional[Dict] = None):
         self.passed = passed
         self.message = message
@@ -16,9 +14,7 @@ class GuardrailResult:
         self.tripwire_triggered = not passed
 
 
-class InputGuardrail:
-    """Guardrail para entrada do usuário seguindo padrão OpenAI"""
-    
+class InputGuardrail: 
     def __init__(self, name: str, client: OpenAI, debug: bool = False):
         self.name = name
         self.client = client
@@ -30,8 +26,6 @@ class InputGuardrail:
 
 
 class OutputGuardrail:
-    """Guardrail para saída do assistente seguindo padrão OpenAI"""
-    
     def __init__(self, name: str, client: OpenAI, debug: bool = False):
         self.name = name
         self.client = client
@@ -43,14 +37,12 @@ class OutputGuardrail:
 
 
 class ModerationInputGuardrail(InputGuardrail):
-    """Guardrail de moderação OpenAI para entrada"""
     
     def __init__(self, client: OpenAI, debug: bool = False):
         super().__init__("openai_moderation", client, debug)
         self.moderation_manager = ModerationManager(client, debug)
     
     def validate(self, user_input: str) -> GuardrailResult:
-        """Valida entrada usando OpenAI Moderation API"""
         try:
             blocked, message, details = self.moderation_manager.moderar_conteudo(user_input)
             
@@ -104,7 +96,6 @@ class FoodContentInputGuardrail(InputGuardrail):
             resultado = resposta.choices[0].message.content.strip().upper()
             
             if self.debug:
-                print(f"[DEBUG] Food Guardrail - Input: '{user_input[:50]}...'")
                 print(f"[DEBUG] Food Guardrail - Result: '{resultado}'")
             
             if resultado == "S":
@@ -126,9 +117,7 @@ class FoodContentInputGuardrail(InputGuardrail):
             return GuardrailResult(passed=True, message="Erro no guardrail - permitindo")
 
 
-class GuardRailsManager:
-    """Gerenciador de guardrails modernizado seguindo padrão OpenAI"""
-    
+class GuardRailsManager: 
     def __init__(self, client: OpenAI = None, debug: bool = False):
         if client is None:
             load_dotenv()
@@ -179,7 +168,7 @@ class GuardRailsManager:
                 if self.debug:
                     print(f"[ERRO] Erro ao executar guardrail {guardrail.name}: {e}")
                 all_details[guardrail.name] = {
-                    "passed": True,  # fail-open
+                    "passed": True, 
                     "message": f"Erro no guardrail: {e}",
                     "details": {}
                 }
@@ -215,7 +204,7 @@ class GuardRailsManager:
                 if self.debug:
                     print(f"[ERRO] Erro ao executar guardrail {guardrail.name}: {e}")
                 all_details[guardrail.name] = {
-                    "passed": True,  # fail-open
+                    "passed": True, 
                     "message": f"Erro no guardrail: {e}",
                     "details": {}
                 }

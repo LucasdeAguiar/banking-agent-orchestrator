@@ -1,7 +1,6 @@
 from typing import Dict, Tuple, Optional
 from openai import OpenAI
 
-
 class ModerationManager:  
     def __init__(self, client: OpenAI, debug: bool = False):
         self.client = client

@@ -1,13 +1,11 @@
 
-# Refatoração: arquitetura handoff + orchestrator (OpenAI Agents SDK)
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
 from pathlib import Path
-from utils.file_utils import carregar_usuarios, validar_cpf, carregar_historico, salvar_historico, adicionar_cpf_ao_contexto
-from agents_openai import run_agent_loop, enviar_boas_vindas
+from utils.file_utils import carregar_usuarios, validar_cpf, carregar_historico, salvar_historico, adicionar_cpf_ao_contexto, enviar_boas_vindas
+from agents_openai import run_agent_loop
 
-# Configuração
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
@@ -41,7 +39,6 @@ def main():
             
             print("\n🔄 [MAIN] Processando mensagem via OpenAI Agents...")
             
-            # Usar agents_openai diretamente com guardrails e histórico integrados
             context_data = {"cpf": cpf, "nome": nome, "base_usuarios": base_usuarios, "historico": historico}
             resposta_texto, agente_usado = run_agent_loop(pergunta, context_data)
             
@@ -54,7 +51,6 @@ def main():
                 {"role": "assistant", "content": resposta_texto, "agent": agente_usado}
             ])
             
-            # Salvar histórico
             salvar_historico(cpf, historico, HISTORY_DIR)
             print(f"✅ [MAIN] Histórico salvo com {len(historico)} mensagens")
     except KeyboardInterrupt:

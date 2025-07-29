@@ -1,11 +1,17 @@
 import json
+import os
 from datetime import datetime
 from pathlib import Path
+from openai import OpenAI
+from dotenv import load_dotenv
 from db import colecao, conexao_disponivel, verificar_conexao
+
+# Configurar cliente OpenAI para boas-vindas
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 def carregar_prompt():
-    """Carrega o prompt base do arquivo JSON"""
     with open("prompt.json", "r", encoding="utf-8") as f:
         data = json.load(f)
         return data["base_prompt"]
@@ -75,19 +81,16 @@ def carregar_usuarios(arquivo: str = "users.json") -> dict:
 
 
 def validar_cpf(cpf: str, usuarios: dict) -> bool:
-    """Valida se CPF existe na base de dados"""
     return cpf in usuarios
 
 
 def adicionar_cpf_ao_contexto(historico: list, cpf: str) -> None:
-    """Adiciona CPF ao contexto se não estiver presente"""
     if not any(item.get("role") == "system" and "CPF do usuário" in item.get("content", "") 
                for item in historico):
         historico.insert(0, {"role": "system", "content": f"O CPF do usuário para esta sessão é {cpf}."})
 
 
 def buscar_mensagens_por_agente(cpf: str, agente: str, history_dir: Path = None) -> list:
-    """Busca mensagens específicas de um agente para um CPF"""
     if history_dir is None:
         history_dir = Path("chat_history")
     
@@ -103,7 +106,6 @@ def buscar_mensagens_por_agente(cpf: str, agente: str, history_dir: Path = None)
 
 
 def listar_agentes_usados(cpf: str, history_dir: Path = None) -> list:
-    """Lista todos os agentes que já foram usados em conversas com um CPF"""
     if history_dir is None:
         history_dir = Path("chat_history")
     
@@ -119,7 +121,6 @@ def listar_agentes_usados(cpf: str, history_dir: Path = None) -> list:
 
 
 def estatisticas_agentes(cpf: str, history_dir: Path = None) -> dict:
-    """Retorna estatísticas de uso dos agentes para um CPF"""
     if history_dir is None:
         history_dir = Path("chat_history")
     
@@ -135,3 +136,41 @@ def estatisticas_agentes(cpf: str, history_dir: Path = None) -> dict:
             estatisticas[agente] += 1
     
     return estatisticas
+
+
+def enviar_boas_vindas(nome: str, historico: list) -> None:
+    prompt_base = carregar_prompt()
+    mensagem_trigger = f"PRIMEIRA_INTERACAO: {nome}"
+    
+    try:
+        mensagens = [
+            {"role": "system", "content": prompt_base},
+            {"role": "system", "content": mensagem_trigger}
+        ]
+        
+        resposta = client.chat.completions.create(
+            model="gpt-4o",
+            messages=mensagens,
+            temperature=0.3
+        )
+        
+        mensagem_boas_vindas = resposta.choices[0].message.content.strip()
+        print(f"\nAssistente: {mensagem_boas_vindas}\n")
+        
+        historico.append({
+            "role": "assistant",
+            "content": mensagem_boas_vindas,
+            "agent": "assistant_inicial"
+        })
+        
+    except Exception as e:
+        print(f"[ERRO] Erro ao gerar boas-vindas: {e}")
+        mensagem_fallback = f"Olá {nome}, seja bem-vindo(a) ao atendimento Caixa! Como posso ajudá-lo hoje? 😊"
+        print(f"\nAssistente: {mensagem_fallback}\n")
+        
+        historico.append({
+            "role": "assistant", 
+            "content": mensagem_fallback,
+            "agent": "assistant_inicial"
+        })
+
